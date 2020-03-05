@@ -50,5 +50,36 @@ class CompilerTest extends PHPUnit_Framework_TestCase {
         );
     }
 
-}
+    /**
+     * @dataProvider getCompileGetParametersData
+     */
+    public function testCompileGetParameters($expression, $parameters)
+    {
+        $compiler = new Compiler();
 
+        $executable = $compiler->compile($expression);
+
+        $this->assertSame($executable->getParameters(), $parameters);
+    }
+
+    public function getCompileGetParametersData()
+    {
+        return array(
+            array('3', array()),
+            array('3 + 3', array()),
+            array('price', array('price')),
+            array('price + 2 * 3', array('price')),
+            array('pi()', array()),
+            array('pow(3, 2)', array()),
+            array('modulo(5, 2)', array()),
+            array('cos(0)', array()),
+            array('sin(0)', array()),
+            array('sqrt(foo)', array('foo')),
+            array('foo', array('foo')),
+            array('foo + 1', array('foo')),
+            array('foo * bar', array('foo', 'bar')),
+            array('pow(foo, bar)', array('foo', 'bar')),
+            array('pow(sqrt(pow(foo, bar)), baz)', array('foo', 'bar', 'baz')),
+        );
+    }
+}

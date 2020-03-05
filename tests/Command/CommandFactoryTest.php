@@ -49,6 +49,11 @@ class CommandFactoryTest extends PHPUnit_Framework_TestCase {
 
 class CommandFactoryTest_FakeCommand implements \FormulaInterpreter\Command\CommandInterface {
     public function run() {}
+
+    public function getParameters()
+    {
+        return array();
+    }
 }
 
 ?>
